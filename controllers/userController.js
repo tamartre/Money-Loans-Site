@@ -1,4 +1,4 @@
-const user= require('../models/userModel');
+const User= require('../models/user');
 
 const createNewUser = async (req, res) => {
     try {
@@ -15,9 +15,9 @@ const createNewUser = async (req, res) => {
 }   catch (error) {
         console.error(error);
         return res.status(500).json({ message: 'Internal server error' });
-    }
+    }}
 
-    async function getAllUsers(req, res) {
+    const getAllUsers=async(req, res)=> {
         // just manager
         if (req.user.roles != "manager")
             return res.status(401).json({ message: 'Unauthorized' });
@@ -29,5 +29,13 @@ const createNewUser = async (req, res) => {
         res.json(users);
     }
 
+    async function getUserById(req, res) {
+        const { id } = req.params;
+        if (!id) {
+            return res.status(400).json({ message: "no user found" });
+        }
+        const user = await User.find({ _id: id }, { password: 0 });
+        res.json(user);
+    }
 
-}
+module.exports = { createNewUser, getAllUsers, getUserById }
