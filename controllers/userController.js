@@ -37,5 +37,23 @@ const createNewUser = async (req, res) => {
         const user = await User.find({ _id: id }, { password: 0 });
         res.json(user);
     }
+    const updateUser = async (req, res) => {
+    const {id,userName, name,email,phone } = req.body
+        if (!id || !userName) {
+            return res.json({ message: "fields required" })
+        }
+        const user = await User.findById(id).exec()
+        if (!user) {
+            return res.json({ message: "user not found" })
+        }
+    user.userName = userName 
+    user.name = name
+    user.email = email
+    user.phone = phone 
 
-module.exports = { createNewUser, getAllUsers, getUserById }
+    const updatedUser = await user.save()
+    res.json(`${updatedUser.name} update`)
+
+}
+
+module.exports = { createNewUser, getAllUsers, getUserById ,updateUser}
