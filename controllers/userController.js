@@ -19,8 +19,8 @@ const createNewUser = async (req, res) => {
 
     const getAllUsers=async(req, res)=> {
         // just manager
-        if (req.user.roles != "manager")
-            return res.status(401).json({ message: 'Unauthorized' });
+        // if (req.user.roles != "manager")
+        //     return res.status(401).json({ message: 'Unauthorized' });
 
         const users = await User.find({}, { password: 0 }).lean();
         if (!users?.length) {
