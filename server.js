@@ -1,17 +1,17 @@
 require("dotenv").config()
 const express=require("express")
-//const cors=require("cors")
-//const corsOptions=require("./config/corsOptions")
-//const connectDB=require("./config/dbConn")
-//const { default: mongoose } = require("mongoose")
+const cors=require("cors")
+const corsOptions=require("./config/corsOptions")
+const connectDB=require("./config/dbConn")
+const { default: mongoose } = require("mongoose")
 const verifyJWT = require("./middleware/verifyJWT")
 
 
 const PORT=process.env.PORT||1000
 const app=express()
 
-//connectDB()
-//app.use(cors(corsOptions))
+connectDB()
+app.use(cors(corsOptions))
 app.use(express.json())
 app.use("/api/user",require("./route/userRoute"))
 app.use("/api/loan",require("./route/loanRoute"))
@@ -25,13 +25,13 @@ app.get("/",(req,res)=>{
 })
 console.log(process.env.NODE_ENV);
 
-//mongoose.connection.once('open',()=>{
- //   console.log("Connected to DB")
+mongoose.connection.once('open',()=>{
+    console.log("Connected to DB")
 
 app.listen(PORT,()=>{
     console.log(`Server running on port ${PORT}`)})
-//})
+})
 
-//mongoose.connection.on('error',err=>{
-  //  console.log(err);
-//})
+mongoose.connection.on('error',err=>{
+    console.log(err);
+})
