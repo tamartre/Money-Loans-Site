@@ -24,3 +24,5 @@ const loanSchema = new mongoose.Schema({
         default: Date.now
     }   
 })
+const Loan = mongoose.model('Loan', loanSchema);
+module.exports = Loan; 
